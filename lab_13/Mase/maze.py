@@ -81,7 +81,6 @@ class Maze:
             self.mazeCells[cord.row, cord.col] = self.PATH_TOKEN
         return self
 
-
     def __str__(self):
         string = ""
         for i in range(self.num_rows()):
@@ -95,7 +94,7 @@ class Maze:
 
     def check_neighbors(self, row, col):
         lst = []
-        for cor in [(1, 0), (0, 1), (-1, 0), (0, -1), ]:
+        for cor in [(-1, 0), (0, -1), (1, 0), (0, 1), ]:
             if self.valid_move(row + cor[0], col + cor[1]):
                 lst.append(CellPosition(row + cor[0], col + cor[1]))
         return lst
