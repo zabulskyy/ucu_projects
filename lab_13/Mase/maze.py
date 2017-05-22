@@ -54,15 +54,15 @@ class Maze:
         for cell in home_cords_nei:
             if cell == self.exitCell:
                 return True
-            cell.path.append(current)
             stack.push(cell)
+            cell.path += current.path
+            cell.path.append(current)
         self.mark_tried(current.row, current.col)
 
         while not stack.isEmpty():
             parent = current
             current = stack.peek()
             current.parent = parent
-            current.path += parent.path
             current.path.append(current)
 
             self.mark_tried(current.row, current.col)
@@ -72,6 +72,8 @@ class Maze:
             stack.pop()
             for cell in self.check_neighbors(current.row, current.col):
                 stack.push(cell)
+                cell.path += current.path
+                cell.path.append(cell)
         return False
 
     def print_way(self):
