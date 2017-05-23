@@ -7,6 +7,7 @@ def main():
     if maze.find_path() :
         print( "Path found...." )
         maze.draw()
+        maze.reset()
         print(maze.print_way())
     else :
         print( "Path not found...." )
