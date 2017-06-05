@@ -26,6 +26,7 @@ class Board:
             stryng += '\n'
         return stryng
 
+    @property
     def empty_coords(self):
         empty_cells = set()
         for row in range(3):
@@ -34,6 +35,7 @@ class Board:
                     empty_cells.add((row, col))
         return empty_cells
 
+    @property
     def points_coords(self):
         """
         find out the coordinates of points
@@ -49,13 +51,14 @@ class Board:
                     x_coords.add((row, col))
         return x_coords, o_coords
 
+    @property
     def someone_wins(self):
         """
         analyse field to find out the winner or return None otherwise
         :return: str or None
         """
-        x_coords = self.points_coords()[0]
-        o_coords = self.points_coords()[1]
+        x_coords = self.points_coords[0]
+        o_coords = self.points_coords[1]
 
         if len(x_coords) + len(o_coords) == 9:
             return self._TIE
@@ -89,11 +92,11 @@ board = Board()
 
 
 def build_tree(b):
-    if b.someone_wins() == "TIE" or b.someone_wins() == "O" or b.someone_wins() == "X":
+    if b.someone_wins == "TIE" or b.someone_wins == "O" or b.someone_wins == "X":
         return
 
     tree = LinkedBinaryTree(b)
-    free_cells = b.empty_coords()
+    free_cells = b.empty_coords
     random_cell1 = choice(list(free_cells))
     choice1 = deepcopy(b)
     choice1.turn("O", random_cell1)
@@ -108,38 +111,43 @@ def build_tree(b):
         tree.right_child = LinkedBinaryTree(choice2)
         build_tree(choice2)
 
-while True:
-    print("type x and y coordinates with space *1 2* or *0 0*: ")
-    x, y = [int(_) for _ in input().split()]
-    board.turn("X", (x, y))
-    print(board, "\n--------------------")
 
-    build_tree(board)
+def start_game():
+    while True:
+        print("type x and y coordinates with space *1 2* or *0 0*: ")
+        x, y = [int(_) for _ in input().split()]
+        board.turn("X", (x, y))
+        print(board, "\n--------------------")
 
-    if board.someone_wins() == "TIE":
-        print("it is a tie")
-        break
+        build_tree(board)
 
-    elif board.someone_wins() == "O":
-        print("you lost")
-        break
-    elif board.someone_wins() == "X":
-        print("you win")
-        break
+        if board.someone_wins == "TIE":
+            print("it is a tie")
+            break
 
-    free_cells = board.empty_coords()
-    random_cell = choice(list(free_cells))
+        elif board.someone_wins == "O":
+            print("you lost")
+            break
+        elif board.someone_wins == "X":
+            print("you win")
+            break
 
-    board.turn("O", random_cell)
-    print(board)
+        free_cells = board.empty_coords
+        random_cell = choice(list(free_cells))
 
-    if board.someone_wins() == "TIE":
-        print("it is a tie")
-        break
+        board.turn("O", random_cell)
+        print(board)
 
-    elif board.someone_wins() == "O":
-        print("you lost")
-        break
-    elif board.someone_wins() == "X":
-        print("you win")
-        break
+        if board.someone_wins == "TIE":
+            print("it is a tie")
+            break
+
+        elif board.someone_wins == "O":
+            print("you lost")
+            break
+        elif board.someone_wins == "X":
+            print("you win")
+            break
+
+if __name__ == "__main__":
+    start_game()
